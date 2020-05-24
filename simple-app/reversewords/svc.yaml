@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     app: reverse-words
-  name: reverse-words
+  name: chap9-gitops
 spec:
   ports:
   - port: 8080
