@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: rh-ocp-apache02
+  name: rh-ocp-apache02
+  namespace: chap9
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 5
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: rh-ocp-apache02
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: rh-ocp-apache02
+        deploymentconfig: rh-ocp-apache02
+    spec:
+      containers:
+      - image: image-registry.openshift-image-registry.svc:5000/chap9/rh-ocp-apache01@sha256:f2aafc0c54f56e47fba9e47a2ae9c7623961426e714e51a1dff556de0f8a4ff7
+        imagePullPolicy: Always
+        name: rh-ocp-apache02
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        - containerPort: 8443
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
